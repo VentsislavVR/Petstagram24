@@ -1,7 +1,11 @@
 from django.shortcuts import render
 
+
 # Create your views here.
 def index(request):
+    context = {}
     return render(
         request,
-        'common/home-page.html')
+        'common/home-page.html',
+        context
+    )

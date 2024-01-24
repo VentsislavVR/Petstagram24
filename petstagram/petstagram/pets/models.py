@@ -12,14 +12,15 @@ class Pet(models.Model):
     personal_photo = models.URLField()
 
     date_of_birth = models.DateField(
-        blank=True,
         null=True,
+        blank=True,
+
     )
     slug = models.SlugField(
         unique=True,
         null=False,
         blank=True,
-        editable=False,
+        editable=False, # Readonly,
     )
 
     def save(self, *args, **kwargs):
@@ -27,7 +28,6 @@ class Pet(models.Model):
         if not self.slug:
             self.slug = slugify(f"{self.name}-{self.id}")
         return super().save(*args, **kwargs)
-
 
     def __str__(self):
         return f'{self.id} - {self.name}'

@@ -4,7 +4,7 @@
         <div class="container">
             <div class="logo">
                 <!-- Link to Home Page -->
-                <a href="#">
+                <a href="{% url 'index' %}">
                     <img width="50px" src="{% static 'images/free-30-instagram-stories-icons23_122570.png' %}" alt="img1">
                 </a>
 
@@ -47,14 +47,14 @@
                     <li class="nav-item">
 
                         <!-- Link to Profile Page -->
-                        <a href="">
+                        <a href="{% url 'profile_details' pk=2%}">
                             <i>Profile</i>
                         </a>
                     </li>
                     <li class="nav-item">
 
                         <!-- Lpg out -->
-                        <a href="">
+                        <a href="{% url 'accounts_logout' %}">
                             <i>Log out</i>
                         </a>
                     </li>
