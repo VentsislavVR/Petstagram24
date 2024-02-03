@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from petstagram.photos import models
 
@@ -7,10 +8,10 @@ from petstagram.photos import models
 @admin.register(models.Photo)
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('id', 'date_of_publication',
-                    'short_description', 'tagged_pets', 'get_likes_count', 'get_comments')
+                    'short_description', 'get_tagged_pets', 'get_likes_count', 'get_comments',)
 
     @staticmethod
-    def tagged_pets(obj):
+    def get_tagged_pets(obj):
         return ",".join([pet.name for pet in obj.tagged_pets.all()])
 
     @staticmethod
@@ -25,6 +26,8 @@ class PhotoAdmin(admin.ModelAdmin):
         return obj.description[:10]
 
     # def link_to_pet(self, obj):
-    #     return u'<a href="/">{}</a>' % obj.pl
+    #     # Assuming obj has a field named 'pet_name' that you want to use in the URL
+    #     return format_html('<a href="/path/to/pet/{0}/">{0}</a>',obj.tagged_pets)
     #
-    # link_to_pet.allow_tags = True # TODO
+    # link_to_pet.allow_tags = True
+    # link_to_pet.short_description = 'Pet Name'
