@@ -2,53 +2,53 @@ from django.shortcuts import render, redirect
 
 
 # Create your views here.
-def profile_register(request):
+def signup_user(request):
     context = {}
     return render(
         request,
-        'accounts/register-page.html',
+        'accounts/signup_user.html',
         context
     )
 
 
-def profile_login(request):
+def signin_user(request):
     context = {}
 
     return render(
         request,
-        'accounts/login-page.html',
+        'accounts/signin_user.html',
         context
     )
 
 
-def profile_logout(request):
+def signout_user(request):
     return redirect('index')
 
 
-def profile_details(request, pk):
+def details_profile(request, pk):
 
     context = {}
     return render(
         request,
-        'accounts/profile-details-page.html',
+        'accounts/details_profile.html',
         context
     )
 
 
-def profile_edit(request, pk):
+def edit_profile(request, pk):
     context = {}
 
     return render(
         request,
-        'accounts/profile-edit-page.html',
+        'accounts/edit_profile.html',
         context
     )
 
 
-def profile_delete(request, pk):
+def delete_profile(request, pk):
     context = {}
     return render(
         request,
-        'accounts/profile-delete-page.html',
+        'accounts/delete_profile.html',
         context
     )

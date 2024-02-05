@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'partials/../base.html' %}
 {% load static %}
 {% block page_content %}
     
@@ -7,7 +7,7 @@
     <div class="edit-delete edit-photo">
         <h2>Edit Pet</h2>
         <!-- Start Edit Pet From -->
-        <form action="" method="post">
+        <form action="{% url 'pet_edit' username=username pet_slug=pet.slug %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <!-- Edit Pet Button -->

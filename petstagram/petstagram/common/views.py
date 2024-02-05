@@ -11,41 +11,22 @@ from petstagram.photos.models import Photo
 
 def index(request):
     all_photos = Photo.objects.all()
+    pet_name_pattern = request.GET.get('pet_name_pattern', None)
+
+    if pet_name_pattern:
+        all_photos = all_photos.filter(tagged_pets__name__icontains=pet_name_pattern)
+        # Todo filter also by description and tagged
 
     context = {
-        'all_photos': all_photos
+        'all_photos': all_photos,
+        'pet_name_pattern': pet_name_pattern
+
     }
     return render(
         request,
-        'common/home-page.html',
+        'common/index.html',
         context
     )
-
-# def index(request):
-#     # search_form = SearchPhotosForm(request.GET)
-#     search_pattern = None
-#     # if search_form.is_valid():
-#     #     search_pattern = search_form.cleaned_data['pet_name']
-#
-#     photos = Photo.objects.all()
-#
-#     if search_pattern:
-#         photos = photos.filter(tagged_pets__name__icontains=search_pattern)
-#
-#     photos = [apply_likes_count(photo) for photo in photos]
-#     photos = [apply_user_liked_photo(photo) for photo in photos]
-#     print(photos)
-#     context = {
-#         'photos': photos,
-#         # 'comment_form': PhotoCommentForm(),
-#         # 'search_form': search_form,
-#     }
-
-    # return render(
-    #     request,
-    #     'common/home-page.html',
-    #     context,
-    # )
 
 
 def photo_share(request, photo_id):
@@ -66,7 +47,8 @@ def photo_like(request, photo_id):
     if liked_object:
         liked_object.delete()
     else:
-        like = Like(to_photo=photo)
-        like.save()
+        Like.objects.create(to_photo=photo)
+
+    # Redirect the user to another page (if needed)
 
     return redirect(get_photo_url(request, photo_id))

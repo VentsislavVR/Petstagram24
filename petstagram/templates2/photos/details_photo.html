@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block page_content %}
+{% block main_content %}
     <div class="container">
         <div class="col-9">
             {% include 'partials/pet_photo_list_item.html' with photo=pet_photo %}
@@ -12,7 +12,7 @@
             <h5 class="postTime">{{ pet_photo.created_at }}</h5>
 
             <div class="comments">
-                {% for comment in pet_photo.comment_set.all %}
+                {% for comment in pet_photo.photocomment_set.all %}
                     <div class="top">
                         <div class="userDetails">
                             <div class="comment-data">
