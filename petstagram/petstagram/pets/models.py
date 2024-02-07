@@ -23,7 +23,7 @@ class Pet(models.Model):
         unique=True,
         null=False,
         blank=True,
-        editable=False, # Readonly,
+        editable=False, # Readonly,django_migrations
     )
 
     def save(self, *args, **kwargs):

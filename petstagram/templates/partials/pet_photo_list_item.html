@@ -11,17 +11,49 @@
                         </div>
                     </div>
                 </a>
-                <h3>
-                    <a href="{% url 'details profile' pk=1 %}">
-                        Diyan Kalaydzhiev
-                    </a>
-                    <br>
-                    <span>{{ photo.location}}</span>
-                </h3>
+                
+                
+                
+                
+              <h3>
+
+                            <!-- Link to User Profile Details Page -->
+                             <a href="{% url 'details profile' pk=1 %}">
+                                <!-- IF user has first name and last name -->
+                                Diyan Kalaydzhiev
+                                <!-- else -->
+                                <!-- show user username -->
+                            </a>
+                            <br>
+
+                            <!-- IF the photo has location -->
+                            <span>{{ photo.location }}</span>
+
+                            <!-- IF the viewer is the creator of the photo -->
+                            <div class="edit-delete-btns">
+
+                                <!-- Link to Edit Pet Photo Page -->
+                                <a href="{% url 'photo_edit' pk=photo.pk %}">
+                                    <img class="edit-img" src="{% static 'images/edit-pen-icon-6.jpg' %}"
+                                         alt="edit button">
+                                </a>
+
+                                <!-- Link to Delete Pet Photo Page -->
+                                <a href="{% url 'photo_delete' pk=photo.pk %}">
+                                    <img class="bin-img" src="{% static 'images/icon-remove-22.jpg' %}" alt="bin button">
+                                </a>
+                            </div>
+                            <!-- End IF the viewer is the creator of the photo -->
+
+                        </h3>
+                
+                
+                
+                
             </div>
         </div>
         <div class="imgBx" id="{{ photo.pk }}">
-            <img src="{{ photo.photo.uрl }}" alt="post" class="cover">
+            <img src="{{ photo.photo.url }}" alt="post" class="cover">
         </div>
         <div class="bottom">
             <div class="actionBtns">
@@ -59,10 +91,9 @@
             <h5 class="postTime">{{ photo.date_of_publication|date:'d/m/Y' }}</h5>
 
             <div class="addComments">
-                <form method="post" action="#">
-                    <label for="id_body">Body:</label>
-                    <textarea name="body" cols="40" rows="10" placeholder="Add comment..." maxlength="300"
-                              required="" id="id_body"></textarea>
+                <form method="post" action="{% url 'comment' photo_id=photo.pk %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
                     <button type="submit">Post</button>
                 </form>
             </div>
