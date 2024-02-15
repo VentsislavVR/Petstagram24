@@ -2,10 +2,7 @@ from django.core.validators import MinLengthValidator
 from django.db import models
 
 from petstagram.pets.models import Pet
-from petstagram.photos.validators import validate_file_size
-
-
-# from petstagram.photos.validators import  MaxFileSizeValidator
+from petstagram.photos.validators import MaxFileSizeValidator, SIZE_5_MB, validate_file_size
 
 
 # Create your models here.
@@ -18,8 +15,8 @@ class Photo(models.Model):
     photo = models.ImageField(
         upload_to='pet_photos/',
         validators=(
+            # MaxFileSizeValidator(limit_value=SIZE_5_MB),
             validate_file_size,
-            # MaxFileSizeValidator(limit_value=SIZE_5_MB)
         ),
         blank=False,
         null=False,
