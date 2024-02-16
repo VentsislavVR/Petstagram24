@@ -42,14 +42,18 @@ class PetCreateView(views.CreateView):
 #     )
 
 class PetDetailsView(views.DetailView):
-    #TODO: fix bad queries
-    model = Pet  # or query
+    # TODO: fix bad queries
+    # model = Pet  # or query
+    queryset = Pet.objects.all()\
+    .prefetch_related("photo_set")\
+    .prefetch_related("photo_set__likes")\
+    .prefetch_related("photo_set__comments")\
+    .prefetch_related("photo_set__tagged_pets")\
+
 
     template_name = "pets/details_pet.html"
     # slug="pet_slug" # name of field in model
-    slug_url_kwarg = "pet_slug"# name of param in URL
-
-
+    slug_url_kwarg = "pet_slug"  # name of param in URL
 
 
 # def pet_details(request, username, pet_slug):
@@ -64,12 +68,11 @@ class PetDetailsView(views.DetailView):
 #     )
 
 class PetEditView(views.UpdateView):
-    model = Pet # or query Pet.objects.all()
+    model = Pet  # or query Pet.objects.all()
     form_class = PetEditForm
     template_name = "pets/edit_pet.html"
 
     slug_url_kwarg = "pet_slug"
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,8 +85,6 @@ class PetEditView(views.UpdateView):
             "pet_slug": self.object.slug,
         }
                        )
-
-
 
 
 # def pet_edit(request, username, pet_slug):
@@ -119,6 +120,7 @@ class PetDeleteView(views.DeleteView):
     extra_context = {
         "username": "lenovo",
     }
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs["instance"] = self.object
@@ -129,7 +131,6 @@ class PetDeleteView(views.DeleteView):
     #     form = self.form_class(instance=self.object)
     #     context["form"] = form
     #     return context
-
 
 # def pet_delete(request, username, pet_slug):
 #     pet = Pet.objects.filter(slug=pet_slug).get()
