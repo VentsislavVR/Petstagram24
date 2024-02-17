@@ -6,7 +6,7 @@
         <h2>Edit photo</h2>
 
         <!-- Starts Edit Photo Form -->
-        <form action="{% url 'photo_edit' pk=photo.pk %}" method="post">
+        <form action="{% url 'edit photo' pk=photo.pk %}" method="post">
            {{ form.as_p }}
             {% csrf_token %}
             <!-- Edit Photo Button -->

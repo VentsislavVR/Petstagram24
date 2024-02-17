@@ -1,8 +1,8 @@
 from django.urls import path
-from petstagram.common import views
+from petstagram.common.views import IndexView, photo_like, photo_share, add_comment
 urlpatterns = (
-    path('',views.index,name='index'),
-    path('pet_photo_like/<int:photo_id>/',views.photo_like,name='like'),
-    path('share/<int:photo_id>/',views.photo_share,name='share'),
-    path('comment/<int:photo_id>/',views.add_comment,name='comment'),
+    path('',IndexView.as_view(),name='index'),
+    path('pet_photo_like/<int:photo_id>/',photo_like,name='like'),
+    path('share/<int:photo_id>/',photo_share,name='share'),
+    path('comment/<int:photo_id>/',add_comment,name='comment'),
 )
