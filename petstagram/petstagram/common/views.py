@@ -10,6 +10,7 @@ from petstagram.photos.models import Photo
 from django.views import generic as views
 
 
+
 # def index(request):
 #     all_photos = Photo.objects.all()
 #     pet_name_pattern = request.GET.get('pet_name_pattern', None)
@@ -49,6 +50,7 @@ class IndexView(views.ListView):
     @property
     def pet_name_pattern(self):
         return self.request.GET.get('pet_name_pattern', None)
+
 
 
     def get_context_data(self, *args, **kwargs):

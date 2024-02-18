@@ -33,6 +33,13 @@ class PetPhotoEditView(views.UpdateView):
     template_name = 'photos/edit_photo.html'
     form_class = PetPhotoEditForm
 
+    def get_success_url(self):
+        return reverse('details photo', kwargs={
+            'pk': self.object.pk
+        })
+
+
+
 
 def delete_photo(request, pk):
     photo = Photo.objects.get(pk=pk)

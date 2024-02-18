@@ -18,6 +18,11 @@ class PetCreateView(views.CreateView):
             "pet_slug": self.object.slug,
         }
                        )
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs["initial"] = {'user':self.request.user}
+    #     return kwargs
+
 
 
 # FBV CREATE PET
@@ -44,12 +49,11 @@ class PetCreateView(views.CreateView):
 class PetDetailsView(views.DetailView):
     # TODO: fix bad queries
     # model = Pet  # or query
-    queryset = Pet.objects.all()\
-    .prefetch_related("photo_set")\
-    .prefetch_related("photo_set__likes")\
-    .prefetch_related("photo_set__comments")\
-    .prefetch_related("photo_set__tagged_pets")\
-
+    queryset = Pet.objects.all() \
+        .prefetch_related("photo_set") \
+        .prefetch_related("photo_set__likes") \
+        .prefetch_related("photo_set__comments") \
+        .prefetch_related("photo_set__tagged_pets")\
 
     template_name = "pets/details_pet.html"
     # slug="pet_slug" # name of field in model
