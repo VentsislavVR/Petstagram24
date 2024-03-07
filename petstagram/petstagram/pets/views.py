@@ -1,12 +1,16 @@
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import generic as views
 
+from petstagram.core.view_mixins import OwnerRequiredMixin
 from petstagram.pets.forms import PetCreateForm, PetEditForm, PetDeleteForm
 from petstagram.pets.models import Pet
+from django.contrib.auth import mixins as auth_mixins
 
 
-class PetCreateView(views.CreateView):
+
+class PetCreateView(OwnerRequiredMixin,views.CreateView):
     # model = Pet
     # fields = ("name", "date_of_birth", "personal_photo")
     form_class = PetCreateForm
@@ -18,11 +22,20 @@ class PetCreateView(views.CreateView):
             "pet_slug": self.object.slug,
         }
                        )
+    # Todo figure out
     # def get_form_kwargs(self):
     #     kwargs = super().get_form_kwargs()
     #     kwargs["initial"] = {'user':self.request.user}
     #     return kwargs
 
+    # def form_valid(self, form):
+    #     instance = form.save(commit=False)
+    #     instance.user = self.request.user
+    #     return super().form_valid(form)
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.instance.user = self.request.user
+        return form
 
 
 # FBV CREATE PET
@@ -46,15 +59,14 @@ class PetCreateView(views.CreateView):
 #         context
 #     )
 
-class PetDetailsView(views.DetailView):
+class PetDetailsView(auth_mixins.LoginRequiredMixin,views.DetailView):
     # TODO: fix bad queries
     # model = Pet  # or query
     queryset = Pet.objects.all() \
         .prefetch_related("photo_set") \
         .prefetch_related("photo_set__likes") \
         .prefetch_related("photo_set__comments") \
-        .prefetch_related("photo_set__tagged_pets")\
-
+        .prefetch_related("photo_set__tagged_pets")
     template_name = "pets/details_pet.html"
     # slug="pet_slug" # name of field in model
     slug_url_kwarg = "pet_slug"  # name of param in URL
@@ -71,7 +83,9 @@ class PetDetailsView(views.DetailView):
 #         context
 #     )
 
-class PetEditView(views.UpdateView):
+
+
+class PetEditView(auth_mixins.LoginRequiredMixin,views.UpdateView):
     model = Pet  # or query Pet.objects.all()
     form_class = PetEditForm
     template_name = "pets/edit_pet.html"
@@ -89,6 +103,9 @@ class PetEditView(views.UpdateView):
             "pet_slug": self.object.slug,
         }
                        )
+
+
+
 
 
 # def pet_edit(request, username, pet_slug):
@@ -111,7 +128,7 @@ class PetEditView(views.UpdateView):
 #         "pets/edit_pet.html",
 #         context
 #     )
-class PetDeleteView(views.DeleteView):
+class PetDeleteView(OwnerRequiredMixin,views.DeleteView):
     model = Pet
     form_class = PetDeleteForm
 
