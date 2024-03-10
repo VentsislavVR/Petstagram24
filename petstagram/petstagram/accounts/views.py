@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth import views as auth_views, login, logout
 from django.urls import reverse_lazy
-# Create your views here.
 from django.views import generic as views
 
 from petstagram.accounts.forms import PetstagramUserCreateForm

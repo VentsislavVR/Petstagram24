@@ -30,10 +30,10 @@ class Pet(IHaveUser,models.Model):
         blank=True,
         editable=False, # Readonly,django_migrations
     )
-    # user = models.ForeignKey(
-    #     UserModel,
-    #     on_delete=models.RESTRICT,
-    # )
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

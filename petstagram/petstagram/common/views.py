@@ -10,28 +10,6 @@ from petstagram.photos.models import Photo
 from django.views import generic as views
 
 
-
-# def index(request):
-#     all_photos = Photo.objects.all()
-#     pet_name_pattern = request.GET.get('pet_name_pattern', None)
-#     comment_form = CommentForm()
-#
-#     if pet_name_pattern:
-#         all_photos = all_photos.filter(tagged_pets__name__icontains=pet_name_pattern)
-#         # Todo filter also by description and tagged
-#
-#     context = {
-#         'all_photos': all_photos,
-#         'pet_name_pattern': pet_name_pattern,
-#         'comment_form': comment_form
-#
-#
-#     }
-#     return render(
-#         request,
-#         'common/index.html',
-#         context
-#     )
 class IndexView(views.ListView):
     queryset = Photo.objects.all()\
         .prefetch_related('tagged_pets')\
